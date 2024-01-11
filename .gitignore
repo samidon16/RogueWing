@@ -1,0 +1,13 @@
+Binaries/
+.vs/
+DerivedDataCache/
+Intermediate/
+Saved/
+Content/HugeAirplanesPack/
+Content/InfiniteSkies/
+Content/StarterContent/
+Content/__ExternalActors__/
+Content/__ExternalObjects__/
+/.vsconfig
+/RogueWing.sln
+/RogueWing
