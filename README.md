@@ -10,18 +10,6 @@
 ### Full ToDo
 
 <li>
-Animation
-<ol>
-<li>Figure out how to animate a skeletal mesh</li>
-<li>Animate roll and make invulnerable</li>
-<li>Animate fast speed</li>
-<li>Animate damage</li>
-<li>Flashing red screen for altitude warning</li>
-<li>Main menu idle simulation</li>
-</ol>
-</li>
-
-<li>
 Player Input
 <ol>
 <li>Player drop bombs</li>
