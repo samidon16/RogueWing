@@ -17,10 +17,11 @@ class ROGUEWING_API AMainMenuHUD : public AHUD
 public:
 	AMainMenuHUD(const FObjectInitializer& ObjectInitializer);
 	void OnStartButtonClicked();
+	void OnQuitButtonClicked();
 	void ShowMenu();
 	void HideMenu();
 protected:
 	virtual void BeginPlay() override;
 
-	TSharedPtr<class SMainMenuButtonWidget> StartGameButton;
+	TSharedPtr<class SMainMenuButtonWidget> MainMenu;
 };

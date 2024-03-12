@@ -7,6 +7,7 @@ void UPlayerPawnMovementComponent::TickComponent(float DeltaTime, enum ELevelTic
 {
     Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
     // Make sure that everything is still valid, and that we are allowed to move.
+    /*
     if (!PawnOwner || !UpdatedComponent || ShouldSkipUpdate(DeltaTime))
     {
         return;
@@ -25,5 +26,6 @@ void UPlayerPawnMovementComponent::TickComponent(float DeltaTime, enum ELevelTic
             SlideAlongSurface(DesiredMovementThisFrame, 1.f - Hit.Time, Hit.Normal, Hit);
         }
     }
+    */
 };
 

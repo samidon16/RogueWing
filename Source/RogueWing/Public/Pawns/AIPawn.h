@@ -4,10 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "PlanePawn.h"
-#include "PlayerPawn.generated.h"
+#include "AIPawn.generated.h"
 
 UCLASS()
-class ROGUEWING_API APlayerPawn : public APlanePawn
+class ROGUEWING_API AAIPawn : public APlanePawn
 {
 	GENERATED_BODY()
 
@@ -15,18 +15,15 @@ private:
     class UCameraComponent* Camera;
 
 public:
-    APlayerPawn();
+    AAIPawn();
 
     // Called every frame
     virtual void Tick(float DeltaSeconds) override;
 
-    // Called to bind functionality to input
-    virtual void SetupPlayerInputComponent(UInputComponent* InInputComponent) override;
-
     UFUNCTION()
     void OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit);
 
-    UFUNCTION()
-    float GetAltitude() const;
+    UPROPERTY()
+    double MaxRange;
 
 };

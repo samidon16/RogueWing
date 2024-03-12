@@ -1,31 +1,21 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "Pawns/PlayerPawn.h"
-#include "PlayerPawnMovementComponent.h"
+#include "PlayerPawn.h"
+#include "Actors/BulletActor.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 
 // Sets default values
 APlayerPawn::APlayerPawn()
 {
     // Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-    PrimaryActorTick.bCanEverTick = false;
-    SkeletalMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("RootComponent"));
-    SkeletalMeshComponent->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
-    RootComponent = SkeletalMeshComponent;
-
-    static ConstructorHelpers::FObjectFinder<UStaticMesh> MeshAsset(TEXT("/Script/Engine.StaticMesh'/Game/Meshes/StaticMeshes/PT-17.PT-17'"));
-    if (MeshAsset.Succeeded())
-    {
-        SkeletalMeshComponent->SetStaticMesh(MeshAsset.Object);
-    }
-
-    SkeletalMeshComponent->SetSimulatePhysics(true);
-    //SkeletalMeshComponent->SetCollisionProfileName(TEXT("Pawn"));
-
+    PrimaryActorTick.bCanEverTick = true;
+    FirePeriod = 0.1;
+    OnActorHit.AddDynamic(this, &APlayerPawn::OnHit);
 
     /*
     static ConstructorHelpers::FObjectFinder<USkeletalMesh> PlaneVisualAsset(TEXT("/Script/Engine.SkeletalMesh'/Game/HugeAirplanesPack/Models/PT-17/SK_P-T17.SK_P-T17'"));
@@ -40,54 +30,44 @@ APlayerPawn::APlayerPawn()
     // Use a spring arm to give the camera smooth, natural-feeling motion.
     USpringArmComponent* SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraAttachmentArm"));
     SpringArm->SetupAttachment(RootComponent);
-    SpringArm->SetRelativeRotation(FRotator(-10.f, 0.f, 0.f));
     SpringArm->bDoCollisionTest = 0;
-    SpringArm->TargetArmLength = 3000.0f;
+    SpringArm->TargetArmLength = 11000.0f;
     SpringArm->bEnableCameraLag = true;
-    SpringArm->CameraLagSpeed = 3.0f;
+    SpringArm->CameraLagSpeed = 6.0f;
 
     // Create a camera and attach to our spring arm
-    UCameraComponent* Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("ActualCamera"));
+    Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("ActualCamera"));
     Camera->SetupAttachment(SpringArm, USpringArmComponent::SocketName);
-
-    // Take control of the default player
-    AutoPossessPlayer = EAutoReceiveInput::Player0;
-
-    // Create an instance of our movement component, and tell it to update our root component.
-    OurMovementComponent = CreateDefaultSubobject<UPlayerPawnMovementComponent>(TEXT("CustomMovementComponent"));
-    OurMovementComponent->UpdatedComponent = RootComponent;
-}
-
-// Called when the game starts or when spawned
-void APlayerPawn::BeginPlay()
-{
-    Super::BeginPlay();
-
+    Camera->bUsePawnControlRotation = 1;
 }
 
 // Called every frame
 void APlayerPawn::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
+    if (GetAltitude() > 80000)
+    {
+        SkeletalMeshComponent->SetAllPhysicsLinearVelocity(FVector(
+            SkeletalMeshComponent->GetPhysicsLinearVelocity().X,
+            SkeletalMeshComponent->GetPhysicsLinearVelocity().Y,
+            SkeletalMeshComponent->GetPhysicsLinearVelocity().Z * -1));
+    }
 }
 
 // Called to bind functionality to input
 void APlayerPawn::SetupPlayerInputComponent(class UInputComponent* InInputComponent)
 {
     Super::SetupPlayerInputComponent(InInputComponent);
-    InInputComponent->BindAction("Accelerate", IE_Pressed, this, &APlayerPawn::Accelerate);
+    InInputComponent->BindAxis("Accelerate", this, &APlayerPawn::Accelerate);
+    InInputComponent->BindAxis("Turn", this, &APlayerPawn::Turn);
+    InInputComponent->BindAxis("Shoot", this, &APlayerPawn::Shoot);
+    InInputComponent->BindAxis("Boost", this, &APlayerPawn::Boost);
+    InInputComponent->BindAction("Roll", IE_Pressed, this, &APlayerPawn::Roll);
 }
 
-UPawnMovementComponent* APlayerPawn::GetMovementComponent() const
+ void APlayerPawn::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit)
 {
-    return OurMovementComponent;
+     UGameplayStatics::OpenLevel(GetWorld(), FName("MainMenu"), false, "?Game=/Script/RogueWing.MainMenuGameMode");
 }
 
-void APlayerPawn::Accelerate()
-{
-    //PhysicsThrusterComponent->Activate();
-    GEngine->AddOnScreenDebugMessage(-1, 10, FColor::Red, "Pressed W");
-    //SkeletalMeshComponent->AddForce(FVector(0, 0, 1000), FName("None"), true);
-    SkeletalMeshComponent->AddForce(FVector(0, 0, 50000), FName("None"), true);
-}
-
+float APlayerPawn::GetAltitude() const {return GetActorLocation().Z;}

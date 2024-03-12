@@ -12,27 +12,33 @@ void SMainMenuButtonWidget::Construct(const FArguments& InArgs)
 {
 	bCanSupportFocus = true;
 
-	Text = InArgs._LabelText;
+	StartText = FText::FromString("Start Game");
+	QuitText = FText::FromString("Quit Game");
 	OwningHUD = InArgs._OwningHUD;
 	SetColorAndOpacity(FLinearColor::Red);
+
 	ChildSlot
 		[
-			SNew(SBox)
+			SNew(SVerticalBox)
+			+ SVerticalBox::Slot()
 				.HAlign(HAlign_Center)
-				.VAlign(VAlign_Center)
+				.VAlign(VAlign_Bottom)
 				[
 				SNew(SButton)
 					.ContentPadding(20)
 					.OnClicked(this, &SMainMenuButtonWidget::StartGame)
-					.Text(FText::FromString("Start Game"))
+					.Text(StartText)
+				]
+			+ SVerticalBox::Slot()
+				.HAlign(HAlign_Center)
+				.VAlign(VAlign_Top)
+				[
+				SNew(SButton)
+					.ContentPadding(20)
+					.OnClicked(this, &SMainMenuButtonWidget::QuitGame)
+					.Text(QuitText)
 				]
 		];
-}
-
-void SMainMenuButtonWidget::SetText(FText NewText)
-{
-	Text = NewText;
-	TextBlock->SetText(Text);
 }
 
 FReply SMainMenuButtonWidget::StartGame() const
@@ -40,6 +46,15 @@ FReply SMainMenuButtonWidget::StartGame() const
 	if (OwningHUD.IsValid())
 	{
 		OwningHUD->OnStartButtonClicked();
+	}
+	return FReply::Handled();
+}
+
+FReply SMainMenuButtonWidget::QuitGame() const
+{
+	if (OwningHUD.IsValid())
+	{
+		OwningHUD->OnQuitButtonClicked();
 	}
 	return FReply::Handled();
 }

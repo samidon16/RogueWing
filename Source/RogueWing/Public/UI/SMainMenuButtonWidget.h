@@ -13,16 +13,15 @@ class ROGUEWING_API SMainMenuButtonWidget : public SCompoundWidget
 public:
 	SLATE_BEGIN_ARGS(SMainMenuButtonWidget)
 		{} //
-		SLATE_ARGUMENT(FText, LabelText)
 		SLATE_ARGUMENT(TWeakObjectPtr<class AMainMenuHUD>, OwningHUD)
 	SLATE_END_ARGS()
 
 	void Construct(const FArguments& InArgs);
 
-	void SetText(FText NewText);
-
 protected:
-	FText Text;
+	FText StartText;
+
+	FText QuitText;
 
 	FSlateFontInfo Font;
 
@@ -33,4 +32,6 @@ protected:
 	virtual bool SupportsKeyboardFocus() const override { return true; };
 
 	FReply StartGame() const;
+
+	FReply QuitGame() const;
 };

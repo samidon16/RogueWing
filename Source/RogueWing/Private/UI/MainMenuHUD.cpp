@@ -3,8 +3,10 @@
 
 #include "UI/MainMenuHUD.h"
 #include "UI/SMainMenuButtonWidget.h"
+#include "PlayerPawn.h"
 #include "Widgets/SViewport.h"
-#include <Kismet/GameplayStatics.h>
+#include "MainGameState.h"
+#include "Kismet/GameplayStatics.h"
 #include "Engine/Engine.h"
 
 AMainMenuHUD::AMainMenuHUD(const FObjectInitializer& ObjectInitializer)
@@ -21,37 +23,30 @@ void AMainMenuHUD::BeginPlay()
 
 void AMainMenuHUD::OnStartButtonClicked()
 {
-	UGameplayStatics::OpenLevel(GetWorld(), "MainLevel");
 	HideMenu();
+	UGameplayStatics::OpenLevel(GetWorld(), FName("MainMap"), false, "?Game=/Script/RogueWing.MainLevelGameMode");
+}
+
+void AMainMenuHUD::OnQuitButtonClicked()
+{
+	FGenericPlatformMisc::RequestExit(false);
 }
 
 void AMainMenuHUD::ShowMenu()
 {
 	if (GEngine && GEngine->GameViewport)
 	{
-		StartGameButton = SNew(SMainMenuButtonWidget)
-			.OwningHUD(this)
-			.LabelText(NSLOCTEXT("Example", "OhNo", "Hello world"));
-		GEngine->GameViewport->AddViewportWidgetContent(StartGameButton.ToSharedRef());
+		MainMenu = SNew(SMainMenuButtonWidget)
+			.OwningHUD(this);
 
-		if (PlayerOwner)
-		{
-			PlayerOwner->bShowMouseCursor = true;
-			PlayerOwner->SetInputMode(FInputModeUIOnly());
-		}
+		GEngine->GameViewport->AddViewportWidgetContent(MainMenu.ToSharedRef());
 	}
 }
 
 void AMainMenuHUD::HideMenu()
 {
-	if (GEngine && GEngine->GameViewport && StartGameButton.IsValid())
+	if (GEngine && GEngine->GameViewport && MainMenu.IsValid())
 	{
-		GEngine->GameViewport->RemoveViewportWidgetContent(StartGameButton.ToSharedRef());
-	}
-
-	if (PlayerOwner)
-	{
-		PlayerOwner->bShowMouseCursor = false;
-		PlayerOwner->SetInputMode(FInputModeGameOnly());
+		GEngine->GameViewport->RemoveViewportWidgetContent(MainMenu.ToSharedRef());
 	}
 }
