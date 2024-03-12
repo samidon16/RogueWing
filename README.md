@@ -3,7 +3,6 @@
 ### Current ToDo
 <li>Fix altitude reading</li>
 <li>Player drop bombs</li>
-<li>Day progression reading</li>
 <li>Use events to optimize day progression</li>
 
 
@@ -17,17 +16,6 @@ Player Input
 <li>Player dodge and parry</li>
 <li>Boost limited resource</li>
 <li>Pause game and open menu</li>
-</ol>
-</li>
-
-<li>
-UI
-<ol>
-<li>Fix altitude reading</li>
-<li>Day progression reading</li>
-<li>Boost reading</li>
-<li>Health reading</li>
-<li>Tutorial in main menu</li>
 </ol>
 </li>
 
