@@ -1,38 +1,11 @@
-# ToDo:
+# RogueWing
 
-### Current ToDo
-<li>Use events to optimize day progression</li>
+### Basic Game Loop
 
+When booting up the game the player lands on the main menu. After clicking Start Game, the main game level is loaded and gameplay starts.
 
-### Full ToDo
-
-<li>
-Progression
-<ol>
-<li>Level ups</li>
-<li>Player plane progression</li>
-<li>Day progression planes</li>
-<li>Day progression ships</li>
-<li>Special days in the progression<li>
-</ol>
-</li>
-
-<li>
-Physics
-<ol>
-<li>Better gravity and fall physics</li>
-<li>Health and damage system</li>
-</ol>
-</li>
-
-<li>
-Misc
-<ol>
-<li>Tracer rounds</li>
-<li>Use events to optimize day progression</li>
-<li>Optimize game by removing on tick as much as possible</li>
-<li>Multiplayer</li>
-<li>3d bullet spray</li>
-<li>Client vs Server code</li>
-</ol>
-</li>
+<li>Gameplay starts on day 0.</li>
+<li>Each day a number of enemies is spawned.</li>
+<li>The player must destroy all enemies to proceed to the next day.</li>
+<li>The player can take damage from colliding with bullets, the ground, or enemy airplanes.</li>
+<li>When the player's airplane is destroyed the game shows the players stats for that run and then exits to the main menu.</li>
