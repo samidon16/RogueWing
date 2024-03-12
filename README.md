@@ -18,16 +18,6 @@ Progression
 </li>
 
 <li>
-AI
-<ol>
-<li>AI drop bombs</li>
-<li>AI for some planes can dodge/parry</li>
-<li>Swarm controll</li>
-<li>Ships on the water</li>
-</ol>
-</li>
-
-<li>
 Physics
 <ol>
 <li>Better gravity and fall physics</li>
