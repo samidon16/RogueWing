@@ -1,23 +1,10 @@
 # ToDo:
 
 ### Current ToDo
-<li>Fix altitude reading</li>
-<li>Player drop bombs</li>
 <li>Use events to optimize day progression</li>
 
 
 ### Full ToDo
-
-<li>
-Player Input
-<ol>
-<li>Player drop bombs</li>
-<li>Player roll plane orientation</li>
-<li>Player dodge and parry</li>
-<li>Boost limited resource</li>
-<li>Pause game and open menu</li>
-</ol>
-</li>
 
 <li>
 Progression
