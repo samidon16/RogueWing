@@ -75,7 +75,6 @@ Physics
 <li>
 Misc
 <ol>
-<li>Audio and music</li>
 <li>Tracer rounds</li>
 <li>Use events to optimize day progression</li>
 <li>Optimize game by removing on tick as much as possible</li>
